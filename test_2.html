@@ -1,0 +1,321 @@
+<html>
+<!--
+
+Quipper are creating a site to promote a new product called HyperCube. Currently it's
+looking very bland, grey and not very interactive, so the product manager has asked that:
+
+1. The navbar be styled to match the colour scheme and style of the one at www.quipper.com (Quipper blue is #18bde6)
+2. OpenSans be used as the main font, with nice crisp titles rather than heavy bold ones.
+3. The 4 panels be replaced with some kind of centered carousel. He would especially like if the carousel transitioned with a CSS3 3D cube rotation.
+4. The navbar menu to include 4 links for each of the 4 faces of the carousel.
+
+-->
+    <head>
+        <title>HyperCube</title>
+        <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc1/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
+
+        <style>
+            body, h2 {
+                font-family: 'Open Sans', sans-serif;
+            }
+            .navbar {
+                background-color: #3e4149;
+                background-image: -moz-linear-gradient(top, #464952, #34373d);
+                background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#464952), to(#34373d));
+                background-image: -webkit-linear-gradient(top, #464952, #34373d);
+                background-image: -o-linear-gradient(top, #464952, #34373d);
+                background-image: linear-gradient(to bottom, #464952,#34373d);
+                background-repeat: repeat-x;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF464952', endColorstr='#FF34373D', GradientType=0);
+                background-color: #575b66;
+                border-bottom: 1px solid #1d1e21;
+                border-radius: 0;
+            }
+            .navbar, .navbar a {
+                color: #fff;
+            }
+            .navbar a:hover {
+                color: #fff;
+            }
+            .navbar .nav > li > a {
+                text-align: center;
+                color: #fff;
+                border-width: 0px 1px;
+                padding-left: 19px;
+                padding-right: 19px;
+                border-style: solid;
+                border-color: transparent;
+            }
+            .navbar .nav > li.active > a {
+                -webkit-transition: background-color 0.3s;
+                -moz-transition: background-color 0.3s;
+                -o-transition: background-color 0.3s;
+                transition: background-color 0.3s;
+                background-color: transparent 80%;
+                background-image: -webkit-gradient(radial, center center, 0, center center, 460, from(rgba(111,220,248,0.5)), to(transparent 80%));
+                background-image: -webkit-radial-gradient(circle, rgba(111,220,248,0.5), transparent 80%);
+                background-image: -moz-radial-gradient(circle, rgba(111,220,248,0.5), transparent 80%);
+                background-image: -o-radial-gradient(circle, rgba(111,220,248,0.5), transparent 80%);
+                background-repeat: no-repeat;
+                background-color: #34373d;
+                opacity: 1;
+                border-color: #1d1e21;
+            }
+            .navbar .nav > li > a:hover {
+                text-decoration: none;
+                background-color: #18bde6;
+                opacity: 1;
+                -webkit-box-shadow: inset 0px 2px 2px 0 rgba(0,0,0,0.2);
+                -moz-box-shadow: inset 0px 2px 2px 0 rgba(0,0,0,0.2);
+                box-shadow: inset 0px 2px 2px 0 rgba(0,0,0,0.2);
+                text-shadow: none;
+                color: #fff;
+            }
+            .faces {
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            .faces > li {
+                display: block;
+                list-style: none;
+                background: #f0f0f0;
+                padding: 10px;
+                margin-bottom: 10px;
+                float: left;
+                width: 230px;
+                height: 200px;
+                margin-right: 5px;
+            }
+            .faces > li > h2 {
+                font-size: 20px;
+                margin: 0 0 5px 0;
+            }
+
+            /* RESET */
+            html, body, div, span, applet, object, iframe,
+            h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+            a, abbr, acronym, address, big, cite, code,
+            del, dfn, em, font, img, ins, kbd, q, s, samp,
+            small, strike, strong, sub, sup, tt, var,
+            b, u, i, center,
+            dl, dt, dd, ol, ul, li,
+            fieldset, form, label, legend,
+            table, caption, tbody, tfoot, thead, tr, th, td {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                outline: 0;
+                font-size: 100%;
+                vertical-align: baseline;
+                background: transparent;
+            }
+            body {
+                line-height: 1;
+            }
+            ol, ul {
+                list-style: none;
+            }
+            blockquote, q {
+                quotes: none;
+            }
+            blockquote:before, blockquote:after,
+            q:before, q:after {
+                content: '';
+                content: none;
+            }
+            :focus {
+                outline: 0;
+            }
+            /* HTML5 tags */
+            header, section, footer,
+            aside, nav, article {
+                display: block;
+            }
+
+            html {
+             width: 100%;
+             height: 100%;
+             background-color: #FFFFFF;
+             background-image: -moz-linear-gradient(top, #FFFFFF, #b3b3b3); 
+             background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #FFFFFF),color-stop(1, #b3b3b3)); 
+             filter:  progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#b3b3b3'); 
+             -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#FFFFFF', EndColorStr='#b3b3b3')";  
+            }
+
+            #container {
+             width: 960px;
+             margin: 0 auto;
+            }
+
+            #slideshow {
+             width: 900px;
+             margin: 30px auto 0 auto;
+             padding: 30px 0 0 0;
+             -webkit-perspective: 1600; /* triggers a 3D space */
+            }
+
+            figure, .faces {
+             display: inline;
+             -webkit-transform-style: preserve-3d; /* maintains 3D space */
+            }
+
+            .faces {
+             position: relative;
+             display: block;
+             height: 400px;
+             left: -200px;
+             margin-left: 50%;
+             -webkit-transform: translateZ(-200px); /* Pushes 3D object back into place */
+             -webkit-transition: -webkit-transform 1s;  /* Enables transitions for transforms */
+            }
+            .faces li {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 368px;
+             height: 401px;
+            }
+
+            figcaption {
+             display: none;
+            }
+
+            .faces li:nth-child(1) {
+             -webkit-transform: rotateX(0deg) translateZ(200px);
+            }
+
+            .faces li:nth-child(2) {
+             -webkit-transform: rotateX(180deg) translateZ(200px);
+            }
+
+            .faces li:nth-child(3) {
+             -webkit-transform: rotateX(90deg) translateZ(200px);
+            }
+
+            .faces li:nth-child(4) {
+             -webkit-transform: rotateX(-90deg) translateZ(200px);
+            }
+
+            #fig1:focus .faces {
+             -webkit-transform: translateZ(-200px) rotateY(0deg);
+            }
+
+            #fig2:focus .faces {
+             -webkit-transform: translateZ(-200px) rotateX(-180deg);
+            }
+
+            #fig3:focus .faces {
+             -webkit-transform: translateZ(-200px) rotateX(-90deg);
+            }
+
+            #fig4:focus .faces {
+             -webkit-transform: translateZ(-200px) rotateX(90deg);
+            }
+
+
+        </style>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var sliderInterval = null;
+                $("[data-toggle='slider']").on('click', function() {
+                    var link;
+
+                    link = $(this);
+                    link.closest('ul').find('.active').removeClass('active');
+                    link.parent().addClass('active');
+                    location.hash = link.attr('href');
+                });
+
+                if (location.hash) {
+                    $('.navbar-nav').find('.active').removeClass('active')
+                                    .end().find('[href=' + location.hash + ']')
+                                    .parent().addClass('active')
+                }
+
+                sliderInterval = setInterval(function() {
+                    var currentsSlide = $('.navbar-nav').find('.active')
+                    var nextsSlide = currentsSlide.next()
+                    if (nextsSlide.length === 0) {
+                        nextsSlide = $('.navbar-nav li').first()
+                    }
+                    console.log(1);
+
+                    nextsSlide.find('a').click();
+                }, 6000)
+
+            });
+        </script>
+    </head>
+
+    <body>
+
+        <div class="navbar">
+            <a class="navbar-brand" href="#">HyperCube&trade;</a>
+            <ul class="nav navbar-nav">
+                <li class='active'><a data-toggle='slider' href="#fig1">What is HyperCube&trade;?</a></li>
+                <li><a data-toggle='slider' href="#fig2">Imagine the possibilities!</a></li>
+                <li><a data-toggle='slider' href="#fig3">How is it possible?</a></li>
+                <li><a data-toggle='slider' href="#fig4">Is there more?</a></li>
+            </ul>
+        </div>
+
+        <div id="container">
+
+            <div id="slideshow">
+                <figure tabindex=1 id="fig1">
+                <figcaption>What is HyperCube&trade;?</figcaption>
+                <figure tabindex=2 id="fig2">
+                <figcaption>Imagine the possibilities!</figcaption>
+                <figure tabindex=3 id="fig3">
+                <figcaption>How is it possible?</figcaption>
+                <figure tabindex=4 id="fig4">
+                <figcaption>Is there more?</figcaption>
+                    <ul class="faces">
+                        <li class="face">
+                            <h2>What is HyperCube&trade;?</h2>
+                            <p>
+                                The HyperCube&trade; is one of Quipper's most fascinating cube projects,
+                                combining facets of the standard square and cube, while allowing for a
+                                staggering <em>n</em> dimensions!
+                            </p>
+                        </li>
+                        <li class="face">
+                            <h2>Imagine the possibilities!</h2>
+                            <p>
+                                Where the limits of standard cubes end, the endless possibilities of
+                                hypercubes begin! Prepare yourself to step into a whole new dimension.
+                            </p>
+                        </li>
+                        <li class="face">
+                            <h2>How is it possible?</h2>
+                            <p>
+                                Since it is so difficult to imagine an <em>n</em>-dimensional object in a 3D space,
+                                let alone the flat plane of this very website, we will represent hypercubes
+                                as if they were standard cubes.
+                            </p>
+                        </li>
+                        <li class="face">
+                            <h2>Is there more?</h2>
+                            <p>
+                                If you would like to know more about the incredible benefits of installing
+                                HyperCube&trade; in your Infinite Display System then please call us
+                                for a quote and let's see what we can do for you!
+                            </p>
+                        </li>
+                    </ul>
+                </figure>
+                </figure>
+                </figure>
+                </figure>
+            </div>
+        </div>
+
+        <div class="container">
+            HyperCube&trade; &mdash; It's like a cube, but <em>Hyper</em>!
+        </div>
+    </body>
+</html>
